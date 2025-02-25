@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImageFX Prompt Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .copy-btn {
+            background-color: #007bff;
+            margin-top: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ImageFX Prompt Generator</h1>
+        <p>Enter your base prompt to generate an enhanced version for beautiful Malay woman photos.</p>
+        
+        <textarea id="inputPrompt" placeholder="Enter your base prompt here...">Beautiful chubby tall malay woman age 40 years old</textarea>
+        <div class="button-group">
+            <button onclick="generatePrompt()">Generate Enhanced Prompt</button>
+            <button onclick="generateRandomCount()">Random Combinations</button>
+        </div>
+        
+        <div id="output"></div>
+    </div>
+
+    <script>
+        const styleElements = [
+            "candid photography",
+            "candid portrait",
+            "lifestyle photography",
+            "natural photography",
+            "documentary style",
+            "photojournalistic style",
+            "authentic capture",
+            "unposed photography",
+            "natural moment",
+            "spontaneous photography",
+            "professional portrait",
+            "soft lighting",
+            "4K UHD",
+            "high detail",
+            "photorealistic",
+            "gentle lighting",
+            "cultural photography",
+            "editorial style",
+            "natural retouching",
+            "warm color grading",
+            "8K resolution",
+            "natural look",
+            "HDR",
+            "balanced contrast",
+            "elegant composition",
+            "perfect exposure",
+            "lifestyle portrait",
+            "premium quality",
+            "ultra-realistic",
+            "professional camera",
+            "high-end production",
+            "natural skin tones",
+            "crystal clear focus",
+            "subtle post-processing",
+            "magazine quality"
+        ];
+
+        const bodyFeatures = [
+            "graceful full figure",
+            "mature beauty",
+            "warm smile",
+            "elegant stature",
+            "gentle curves",
+            "dignified presence",
+            "motherly figure",
+            "graceful bearing",
+            "soft features",
+            "kind eyes",
+            "welcoming presence",
+            "mature elegance",
+            "natural grace",
+            "gentle demeanor",
+            "radiant complexion",
+            "full-figured grace",
+            "dignified poise",
+            "maternal warmth",
+            "gentle countenance",
+            "serene expression",
+            "natural beauty",
+            "graceful maturity",
+            "elegant presence",
+            "wholesome beauty",
+            "genuine smile",
+            "graceful movements",
+            "confident bearing",
+            "authentic beauty",
+            "dignified charm",
+            "mature grace"
+        ];
+
+        const photographyDetails = [
+            "candid lighting",
+            "natural ambient light",
+            "documentary style lighting",
+            "unposed composition",
+            "spontaneous framing",
+            "authentic environment",
+            "natural shadows",
+            "environmental context",
+            "lifestyle setting",
+            "real-world lighting",
+            "soft natural lighting",
+            "gentle backlight",
+            "clean background",
+            "sharp focus",
+            "subtle bokeh",
+            "warm color tones",
+            "rim lighting",
+            "window light",
+            "natural flash",
+            "diffused lighting",
+            "gentle shadows",
+            "bright lighting",
+            "natural lighting",
+            "golden hour glow",
+            "neutral background",
+            "traditional backdrop",
+            "cultural setting",
+            "depth of field",
+            "balanced composition",
+            "rule of thirds",
+            "symmetrical framing",
+            "cultural background",
+            "textured backdrop",
+            "authentic staging",
+            "natural ambiance",
+            "soft focus effect",
+            "environmental lighting",
+            "warm lighting",
+            "cultural atmosphere"
+        ];
+
+        const poses = [
+            "candid moment",
+            "natural expression",
+            "genuine laugh",
+            "caught in conversation",
+            "natural interaction",
+            "spontaneous gesture",
+            "mid-action shot",
+            "natural movement",
+            "authentic reaction",
+            "casual interaction",
+            "genuine smile",
+            "natural walking",
+            "engaged in activity",
+            "unscripted moment",
+            "real-life interaction",
+            "graceful standing",
+            "sitting elegantly",
+            "natural pose",
+            "warm smile",
+            "traditional pose",
+            "sitting gracefully",
+            "gentle look",
+            "welcoming smile",
+            "reading Quran",
+            "preparing food",
+            "family interaction",
+            "traditional greeting",
+            "walking gracefully",
+            "shopping at market",
+            "cooking scene",
+            "prayer pose",
+            "hosting guests",
+            "serving tea",
+            "cultural gesture",
+            "modest pose",
+            "contemplative look",
+            "teaching moment",
+            "gardening pose",
+            "crafting scene",
+            "community gathering",
+            "traditional activity",
+            "cultural celebration"
+        ];
+
+        const clothingOptions = [
+            "modern baju kurung",
+            "elegant hijab",
+            "traditional kebaya",
+            "modest dress",
+            "modern jubah",
+            "floral baju kurung",
+            "silk headscarf",
+            "patterned tudung",
+            "traditional wear",
+            "modern Islamic wear",
+            "batik dress",
+            "contemporary hijab",
+            "formal baju kurung",
+            "casual modest wear",
+            "printed jubah",
+            "stylish headcover",
+            "modern modest dress",
+            "traditional scarf",
+            "elegant shawl",
+            "formal kebaya",
+            "modern batik",
+            "casual baju kurung",
+            "sophisticated hijab",
+            "formal traditional wear",
+            "modern modest outfit",
+            "cultural dress",
+            "flowing jubah",
+            "elegant traditional wear",
+            "contemporary kebaya",
+            "festive wear"
+        ];
+
+        const scenes = [
+            "traditional kitchen",
+            "modern Malay home",
+            "local mosque",
+            "traditional market",
+            "urban park",
+            "community center",
+            "prayer room",
+            "family living room",
+            "garden setting",
+            "traditional village",
+            "modern apartment",
+            "local cafe",
+            "cultural center",
+            "public library",
+            "community garden",
+            "traditional restaurant",
+            "neighborhood shop",
+            "local market",
+            "modern shopping mall",
+            "cultural event",
+            "community gathering",
+            "traditional ceremony",
+            "family celebration",
+            "quiet garden",
+            "neighborhood scene",
+            "Hari Raya celebration",
+            "community kitchen",
+            "cultural festival",
+            "traditional gathering",
+            "family home"
+        ];
+
+        function getRandomElements(array, count) {
+            const shuffled = array.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        function getRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateRandomCount() {
+            const styleCount = getRandomNumber(2, 4);
+            const featureCount = getRandomNumber(2, 4);
+            const photoCount = getRandomNumber(2, 3);
+            const poseCount = getRandomNumber(1, 2);
+            const clothingCount = getRandomNumber(1, 2);
+            const sceneCount = getRandomNumber(1, 2);
+            
+            generatePrompt(styleCount, featureCount, photoCount, poseCount, clothingCount, sceneCount);
+        }
+
+        function generatePrompt(styleCount = 3, featureCount = 3, photoCount = 2, poseCount = 1, clothingCount = 1, sceneCount = 1) {
+            const basePrompt = document.getElementById('inputPrompt').value.trim();
+            
+            const selectedStyle = getRandomElements(styleElements, styleCount);
+            const selectedFeatures = getRandomElements(bodyFeatures, featureCount);
+            const selectedPhoto = getRandomElements(photographyDetails, photoCount);
+            const selectedPose = getRandomElements(poses, poseCount);
+            const selectedClothing = getRandomElements(clothingOptions, clothingCount);
+            const selectedScene = getRandomElements(scenes, sceneCount);
+
+            const enhancedPrompt = `${basePrompt}, in ${selectedScene.join(', ')}, wearing ${selectedClothing.join(', ')}, ${selectedPose.join(', ')}, ${selectedFeatures.join(', ')}, ${selectedPhoto.join(', ')}, ${selectedStyle.join(', ')}, masterpiece, best quality, highly detailed`;
+
+            document.getElementById('output').innerText = enhancedPrompt;
+            
+            copyToClipboard(enhancedPrompt);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    const notification = document.createElement('div');
+                    notification.textContent = 'Prompt copied to clipboard!';
+                    notification.style.cssText = `
+                        position: fixed;
+                        bottom: 20px;
+                        right: 20px;
+                        background-color: #4CAF50;
+                        color: white;
+                        padding: 15px;
+                        border-radius: 5px;
+                        animation: fadeOut 2s forwards;
+                        z-index: 1000;
+                    `;
+                    
+                    document.body.appendChild(notification);
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 2000);
+                })
+                .catch(err => console.error('Failed to copy text: ', err));
+        }
+
+        // Generate a prompt on page load
+        window.onload = generatePrompt;
+    </script>
+</body>
+</html> 
